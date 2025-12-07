@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>История</title>
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: 40px auto; }
+  pre { background: #f0f0f0; padding: 10px; border-radius: 5px; }
+</style>
+</head>
+<body>
+
+<h2>История введённых данных</h2>
+
+<div id="list"></div>
+
+<button onclick="window.location='main.html'">Назад</button>
+
+<script src="api.js"></script>
+
+<script>
+const token = localStorage.getItem("token");
+if (!token) window.location = "index.html";
+
+async function loadHistory() {
+    const res = await getHistory(token);
+
+    const container = document.getElementById("list");
+
+    if (res.length === 0) {
+        container.textContent = "Нет данных.";
+        return;
+    }
+
+    res.forEach(entry => {
+        const block = document.createElement("pre");
+        block.textContent = JSON.stringify(entry, null, 2);
+        container.appendChild(block);
+    });
+}
+
+loadHistory();
+</script>
+
+</body>
+</html>

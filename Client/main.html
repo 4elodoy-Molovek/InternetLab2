@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Ввод данных</title>
+<style>
+  body { font-family: sans-serif; max-width: 600px; margin: 30px auto; }
+  fieldset { border: 1px solid #888; }
+  input { padding: 5px; margin: 3px; }
+</style>
+</head>
+<body>
+
+<h2>Ввод данных</h2>
+
+<form id="form"></form>
+
+<button id="sendBtn">Отправить</button>
+<button id="historyBtn">История</button>
+
+<p id="msg"></p>
+
+<script src="api.js"></script>
+<script src="ui.js"></script>
+
+<script>
+const token = localStorage.getItem("token");
+if (!token) window.location = "index.html";
+
+const form = document.getElementById("form");
+const msg = document.getElementById("msg");
+
+// Загружаем схему и строим форму
+async function init() {
+    const schema = await getSchema(token);
+
+    buildForm(schema, form);
+}
+
+init();
+
+// Кнопка "Отправить"
+sendBtn.onclick = async () => {
+    const data = collectFormData(form);
+
+    const res = await sendFormData(token, data);
+
+    msg.textContent = res.message || res.error;
+};
+
+// История
+historyBtn.onclick = () => {
+    window.location = "history.html";
+};
+</script>
+
+</body>
+</html>

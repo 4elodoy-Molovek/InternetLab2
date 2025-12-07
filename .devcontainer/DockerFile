@@ -1,0 +1,12 @@
+FROM node:20
+
+# Создаём рабочую директорию
+WORKDIR /workspace
+
+# Устанавливаем простой веб-сервер для клиента
+RUN npm install -g http-server
+
+# Делаем пользователя node владельцем каталога (иначе VS Code ругается)
+RUN mkdir -p /workspace && chown -R node:node /workspace
+
+USER node
