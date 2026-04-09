@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./Client
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+    networks:
+      - lab-net
+  
+  server:
+    build:
+      context: ./Server
+    ports:
+      - "3000:3000"
+    volumes:
+      - sql:/app/db
+    networks:
+      - lab-net
+
+networks:
+  lab-net:
+    driver: bridge
+
+volumes:
+  sql:

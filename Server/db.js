@@ -1,7 +1,17 @@
 const Database = require("better-sqlite3");
+const path = require("path")
+const fs = require("fs")
 
 // Открываем / создаём базу данных
-const db = new Database("users.db");
+// const db = new Database("users.db");
+
+const dbDir = path.join(__dirname, "db");
+if (!fs.existsSync(dbDir))
+{
+    fs.mkdirSync(dbDir);
+}
+
+const db = new Database(path.join(dbDir, "users.db"));
 
 // Создаём таблицу пользователей
 db.prepare(`
